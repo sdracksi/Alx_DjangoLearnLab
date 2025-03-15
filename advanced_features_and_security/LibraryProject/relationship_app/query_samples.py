@@ -12,5 +12,17 @@ def get_books_in_library(library_name):
 
 # Retrieve the librarian for a library
 def get_librarian_for_library(library_name):
-    library = Library.objects.get(name=library_name)
-    return library.librarian
+    """Retrieve the librarian managing a specific library."""
+    try:
+        library = Library.objects.get(name=library_name)
+        librarian = Librarian.objects.get(library=library)
+        return librarian
+    except Library.DoesNotExist:
+        return "Library not found."
+    except Librarian.DoesNotExist:
+        return "No librarian assigned to this library."
+
+# Example Usage
+if __name__ == "__main__":
+    librarian = get_librarian_for_library("Central Library")
+    print(librarian)
