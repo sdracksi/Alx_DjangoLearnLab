@@ -21,6 +21,8 @@ DEBUG = False
 
 # Enforce HTTPS
 SECURE_SSL_REDIRECT = True 
+# Secure proxy headers to properly detect HTTPS requests behind a proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allowed Hosts - restrict to your domain
 ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']
