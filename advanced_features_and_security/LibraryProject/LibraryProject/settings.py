@@ -19,6 +19,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Disable debug mode in production
 DEBUG = False
 
+# Enforce HTTPS
+SECURE_SSL_REDIRECT = True 
+
 # Allowed Hosts - restrict to your domain
 ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']
 
@@ -34,6 +37,9 @@ SESSION_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = 31536000  # Enable HTTP Strict Transport Security (1 year)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
+ # Redirect all HTTP traffic to HTTPS
+
 
 
 # Use secure password validators
