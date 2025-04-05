@@ -4,11 +4,13 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers']
 
+User = get_user_model()
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
