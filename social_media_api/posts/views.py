@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.response import Response
+from django.contrib.contenttypes.models import ContentType
+from .models import Post, Like
+from notifications.models import Notification
 
 # Create your views here.
 from rest_framework import viewsets, permissions, filters
@@ -38,3 +43,32 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_post(request, pk):
+    post = generics.get_object_or_404(Post, pk=pk)
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
+
+    if created:
+        Notification.objects.create(
+            recipient=post.author,
+            actor=request.user,
+            verb='liked your post',
+            target_object_id=post.id,
+            target_content_type=ContentType.objects.get_for_model(Post)
+        )
+        return Response({'detail': 'Post liked'})
+    else:
+        return Response({'detail': 'Already liked'}, status=400)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def unlike_post(request, pk):
+    post = generics.get_object_or_404(Post, pk=pk)
+    try:
+        like = Like.objects.get(user=request.user, post=post)
+        like.delete()
+        return Response({'detail': 'Post unliked'})
+    except Like.DoesNotExist:
+        return Response({'detail': 'You have not liked this post'}, status=400)
