@@ -18,3 +18,14 @@
 - `POST /api/accounts/register/`
 - `POST /api/accounts/login/`
 - `GET /api/accounts/profile/`
+
+## 👥 User Follow Endpoints
+
+- `POST /api/accounts/follow/<user_id>/` – Follow a user
+- `POST /api/accounts/unfollow/<user_id>/` – Unfollow a user
+
+## 📰 Feed Endpoint
+
+- `GET /api/feed/` – View posts from followed users
+
+All endpoints require authentication.
